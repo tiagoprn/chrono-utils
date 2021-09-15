@@ -1,8 +1,27 @@
+import logging
+import os
+
 from datetime import datetime
 from sys import stdout, stdin
 from typing import List
 
 import typer
+
+
+CURRENT_SCRIPT_NAME = os.path.splitext(os.path.basename(__file__))[0]
+LOG_FORMAT = ('[%(asctime)s PID %(process)s '
+              '%(filename)s:%(lineno)s - %(funcName)s()] '
+              '%(levelname)s -> \n'
+              '%(message)s\n')
+# Configure the logging both to file and to console. Works from python 3.3+
+logging.basicConfig(
+    format=LOG_FORMAT,
+    level=logging.INFO,
+    handlers=[
+        logging.FileHandler(f'{CURRENT_SCRIPT_NAME}.log'),
+        # logging.StreamHandler(stdout)
+    ])
+
 
 app = typer.Typer()
 
@@ -27,7 +46,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
     current_timestamp = _get_current_timestamp_in_12_hours_format()
 
-    stdout.write('Filtering all records >= '
+    logging.info('Filtering all records >= '
                  f'{current_timestamp}...\n')
 
     for line in data:
@@ -47,10 +66,9 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
 @app.command()
 def filter_input(number_of_records: int):
-    stdout.write(f'Will filter for the next {number_of_records} records.\n')
+    logging.info(f'Will filter for the next {number_of_records} records.\n')
     data = stdin.readlines()
 
-    # __import__('pudb').set_trace()
     filtered_records = _filter_records(data, number_of_records)
     for record in filtered_records:
         stdout.write(record)
