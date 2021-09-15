@@ -26,20 +26,23 @@ def test_get_datetime_instance_from_12_hours_format(
         assert datetime_instance == expected_datetime_instance
 
 
-@time_machine.travel('2021-01-01T08:00', tick=False)
-def test_filter_records():
-    records = [
-        '5:00am Do 01',
-        '7:59am Do 02',
-        '8:00am Do 03',
-        '8:01am Do 04',
-        '1:00pm Do 05',
-        '2:00pm Do 06'
-    ]
-    filtered_records = _filter_records(records, 3)
-    expected_filtered_records = [
-        '8:00am Do 03',
-        '8:01am Do 04',
-        '1:00pm Do 05'
-    ]
-    assert filtered_records == expected_filtered_records
+@pytest.mark.parametrize(
+        'fake_current_datetime,expected_filtered_records,number_of_records',
+        [
+            ['2021-01-01T08:00', ['8:00am 03', '8:01am 04', '1:00pm 05'], 3],
+            # TODO: add more situations here
+        ]
+)
+def test_filter_records(
+        fake_current_datetime, expected_filtered_records, number_of_records):
+    with time_machine.travel(fake_current_datetime, tick=False):
+        records = [
+            '5:00am 01',
+            '7:59am 02',
+            '8:00am 03',
+            '8:01am 04',
+            '1:00pm 05',
+            '2:00pm 06'
+        ]
+        filtered_records = _filter_records(records, number_of_records)
+        assert filtered_records == expected_filtered_records
