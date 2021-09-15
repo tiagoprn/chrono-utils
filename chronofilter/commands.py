@@ -15,6 +15,13 @@ def _get_current_timestamp_in_12_hours_format() -> str:
             '0') else current_timestamp
 
 
+def _get_datetime_instance_from_12_hours_format(
+        timestamp_in_12_hours_format: str) -> datetime:
+    day_str = datetime.now().strftime('%Y-%m-%d')
+    full_datetime = f'{day_str} {timestamp_in_12_hours_format.upper()}'
+    return datetime.strptime(full_datetime, '%Y-%m-%d %I:%M%p')
+
+
 def _filter_records(data: List[str], number_of_records: int) -> List[str]:
     filtered_records = []
 
@@ -24,8 +31,16 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
                  f'{current_timestamp}...\n')
 
     for line in data:
-        # TODO: process the lines here
-        filtered_records.append(line)
+        if not line:
+            continue
+
+        timestamp_string = line.split()[0]
+        timestamp_as_datetime = _get_datetime_instance_from_12_hours_format(
+                timestamp_string)
+
+        if timestamp_as_datetime >= datetime.now():
+            filtered_records.append(line)
+
         if len(filtered_records) == number_of_records:
             return filtered_records
 
