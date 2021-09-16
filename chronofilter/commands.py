@@ -50,7 +50,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
                  f'{current_timestamp}...\n')
 
     for line in data:
-        if not line:
+        if not line.strip():
             continue
 
         timestamp_string = line.split()[0]
@@ -59,9 +59,13 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
         if timestamp_as_datetime >= datetime.now():
             filtered_records.append(line)
+        else:
+            continue
 
         if len(filtered_records) == number_of_records:
             return filtered_records
+
+    return filtered_records
 
 
 @app.command()
