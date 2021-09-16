@@ -13,7 +13,6 @@ LOG_FORMAT = (
     '%(levelname)s -> \n'
     '%(message)s\n'
 )
-# Configure the logging both to file and to console. Works from python 3.3+
 logging.basicConfig(
     format=LOG_FORMAT,
     level=logging.INFO,
