@@ -1,18 +1,18 @@
 import logging
 import os
-
 from datetime import datetime
-from sys import stdout, stdin
+from sys import stdin, stdout
 from typing import List
 
 import typer
 
-
 CURRENT_SCRIPT_NAME = os.path.splitext(os.path.basename(__file__))[0]
-LOG_FORMAT = ('[%(asctime)s PID %(process)s '
-              '%(filename)s:%(lineno)s - %(funcName)s()] '
-              '%(levelname)s -> \n'
-              '%(message)s\n')
+LOG_FORMAT = (
+    '[%(asctime)s PID %(process)s '
+    '%(filename)s:%(lineno)s - %(funcName)s()] '
+    '%(levelname)s -> \n'
+    '%(message)s\n'
+)
 # Configure the logging both to file and to console. Works from python 3.3+
 logging.basicConfig(
     format=LOG_FORMAT,
@@ -20,22 +20,26 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler(f'{CURRENT_SCRIPT_NAME}.log'),
         # logging.StreamHandler(stdout)
-    ])
+    ],
+)
 
 
 app = typer.Typer()
 
 
 def _get_current_timestamp_in_12_hours_format() -> str:
-    current_timestamp = datetime.now(
-            ).strftime('%I:%M%p').lower()
+    current_timestamp = datetime.now().strftime('%I:%M%p').lower()
 
-    return current_timestamp[1:] if current_timestamp.startswith(
-            '0') else current_timestamp
+    return (
+        current_timestamp[1:]
+        if current_timestamp.startswith('0')
+        else current_timestamp
+    )
 
 
 def _get_datetime_instance_from_12_hours_format(
-        timestamp_in_12_hours_format: str) -> datetime:
+    timestamp_in_12_hours_format: str,
+) -> datetime:
     day_str = datetime.now().strftime('%Y-%m-%d')
     full_datetime = f'{day_str} {timestamp_in_12_hours_format.upper()}'
     return datetime.strptime(full_datetime, '%Y-%m-%d %I:%M%p')
@@ -46,8 +50,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
     current_timestamp = _get_current_timestamp_in_12_hours_format()
 
-    logging.info('Filtering all records >= '
-                 f'{current_timestamp}...\n')
+    logging.info('Filtering all records >= ' f'{current_timestamp}...\n')
 
     for line in data:
         if not line.strip():
@@ -55,7 +58,8 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
         timestamp_string = line.split()[0]
         timestamp_as_datetime = _get_datetime_instance_from_12_hours_format(
-                timestamp_string)
+            timestamp_string
+        )
 
         if timestamp_as_datetime >= datetime.now():
             filtered_records.append(line)
