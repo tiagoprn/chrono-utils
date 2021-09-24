@@ -1,5 +1,22 @@
 #!/usr/bin/env python3
 
+"""
+Given lines with time records, filters the records showing the ones
+that occur at the current time and the next ones, by the number specified
+as parameter.
+
+This is script is designed with the purposed to be used as a pipe to
+a previous command to generate/list the records. Each record must be
+separated by a newline.
+
+e.g.
+
+$ cat ../sample_input.txt | ./filter_time_records.py 3
+
+This will show the next 3 records that will happen in the near future
+(taking the current timestamp as the time reference).
+"""
+
 import logging
 import os
 from datetime import datetime
