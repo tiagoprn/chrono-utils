@@ -17,13 +17,12 @@ This will show the next 3 records that will happen in the near future
 (taking the current timestamp as the time reference).
 """
 
+import argparse
 import logging
 import os
 from datetime import datetime
 from sys import stdin, stdout
 from typing import List
-
-import typer
 
 CURRENT_SCRIPT_NAME = os.path.splitext(os.path.basename(__file__))[0]
 LOG_FORMAT = (
@@ -40,9 +39,6 @@ logging.basicConfig(
         # logging.StreamHandler(stdout)
     ],
 )
-
-
-app = typer.Typer()
 
 
 def _get_current_timestamp_in_12_hours_format() -> str:
@@ -90,15 +86,18 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
     return filtered_records
 
 
-@app.command()
-def filter_input(number_of_records: int):
-    logging.info(f'Will filter for the next {number_of_records} records.\n')
+def filter_input(parsed_args: argparse.Namespace):
+    logging.info('Will filter for the next {args.number_of_records} records.')
     data = stdin.readlines()
 
-    filtered_records = _filter_records(data, number_of_records)
+    filtered_records = _filter_records(data, parsed_args.number_of_records)
     for record in filtered_records:
         stdout.write(record)
 
 
 if __name__ == '__main__':
-    app()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "number_of_records", type=int, help="show the next x records"
+    )
+    filter_input(parser.parse_args())
