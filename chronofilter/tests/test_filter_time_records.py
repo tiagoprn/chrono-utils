@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 import time_machine
 
-from chronofilter.commands import (
+from chronofilter.filter_time_records import (
     _filter_records,
     _get_datetime_instance_from_12_hours_format,
 )
