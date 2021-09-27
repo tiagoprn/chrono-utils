@@ -4,6 +4,10 @@ Given timestamped records on stdin, prints on stdout the ones that will happen i
 
 Here (TODO: Put github link here) is an example on how to use it. Check also the tests (TODO: Put github link here) for more scenarios.
 
+You can use the main script standalone on any python3 installation, since it does not require any third party dependency. To do that, you can simply download it with curl:
+```
+TODO
+```
 
 # Setting up the development environment
 
