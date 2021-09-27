@@ -16,8 +16,11 @@ clean:  ## Clean python bytecodes, optimized files, logs, cache, coverage...
 	@rm -f *.log
 	@find . -name "celerybeat-schedule*" | xargs rm -rf
 
-requirements:  ## install requirements
+requirements: clean  ## setup poetry environment (install project requirements)
 	@poetry install
+
+shell: clean  ## activate poetry environment
+	@poetry shell
 
 style:	## Run isort and black auto formatting code style in the project
 	@echo 'running isort...'
@@ -44,4 +47,5 @@ coverage: clean  ## Run the test coverage report
 
 run: ## Run the script on the sample file as input
 	@cat sample_input.txt | chronofilter/filter_time_records.py 3
+
 
