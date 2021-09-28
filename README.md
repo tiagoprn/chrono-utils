@@ -2,11 +2,12 @@
 
 Given timestamped records on stdin, prints on stdout the ones that will happen in the near future, taking the current timestamp as a reference.
 
-Here (TODO: Put github link here) is an example on how to use it. Check also the tests (TODO: Put github link here) for more scenarios.
+[Here](https://github.com/tiagoprn/chronofilter/blob/9b317417e0252ea74483430f60f9ada10b53a1ab/Makefile#L49) is an example on how to use it. Check also [tests for more scenarios](https://github.com/tiagoprn/chronofilter/blob/master/chronofilter/tests/test_filter_time_records.py).
 
 You can use the main script standalone on any python3 installation, since it does not require any third party dependency. To do that, you can simply download it with curl:
+
 ```
-TODO
+curl https://raw.githubusercontent.com/tiagoprn/chronofilter/master/chronofilter/filter_time_records.py -o filter_time_records.py
 ```
 
 # Setting up the development environment
