@@ -66,7 +66,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
     logging.info('Filtering all records >= ' f'{current_timestamp}...\n')
 
-    for line in data:
+    for position, line in enumerate(data):
         if not line.strip():
             continue
 
@@ -76,6 +76,9 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
         )
 
         if timestamp_as_datetime >= datetime.now():
+            if not filtered_records and (position > 0):
+                filtered_records.append(data[position - 1])
+                number_of_records += 1
             filtered_records.append(line)
         else:
             continue
