@@ -69,6 +69,5 @@ def test_filter_records(
             '2:00pm 06',
         ]
 
-
         filtered_records = _filter_records(records, number_of_records)
         assert filtered_records == expected_filtered_records
