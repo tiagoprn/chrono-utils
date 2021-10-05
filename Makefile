@@ -46,6 +46,6 @@ coverage: clean  ## Run the test coverage report
 	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME) --cov-report term-missing
 
 run: ## Run the script on the sample file as input
-	@cat samples/filter_time_records.txt | chrono_utils/filter_time_records.py 3
+	@cat sample-inputs/filter_time_records.txt | chrono_utils/filter_time_records.py 3
 
 
