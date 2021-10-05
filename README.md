@@ -33,5 +33,9 @@ make shell
 make requirements
 ```
 
-PS: To understand a little more about poetry, you can check [this note of mine](https://tiagopr.nl/posts/published/using-poetry-for-dependencies-on-python-projects/).
+# Notes
+
+- To supress "Entering Directory" messages when running make commands, run the command with `make -s` ("-s" means "silent"). e.g.: `make -s run`
+
+- To understand a little more about poetry, you can check [this note of mine](https://tiagopr.nl/posts/published/using-poetry-for-dependencies-on-python-projects/).
 
