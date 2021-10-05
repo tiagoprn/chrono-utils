@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "chronofilter"
+name = "chrono_utils"
 version = "0.1.0"
 description = ""
 authors = ["tiago.paranhos <tiagoprn@gmail.com>"]

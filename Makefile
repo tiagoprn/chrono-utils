@@ -1,6 +1,6 @@
 .PHONY: help
 SHELL := /bin/bash
-PROJECT_NAME = chronofilter
+PROJECT_NAME = chrono_utils
 
 help:  ## This help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
@@ -46,6 +46,6 @@ coverage: clean  ## Run the test coverage report
 	@py.test --cov-config .coveragerc --cov $(PROJECT_NAME) $(PROJECT_NAME) --cov-report term-missing
 
 run: ## Run the script on the sample file as input
-	@cat sample_input.txt | chronofilter/filter_time_records.py 3
+	@cat sample_input.txt | chrono_utils/filter_time_records.py 3
 
 
