@@ -64,7 +64,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
     current_timestamp = _get_current_timestamp_in_12_hours_format()
 
-    logging.info('Filtering all records >= ' f'{current_timestamp}...\n')
+    # logging.info('Filtering all records >= ' f'{current_timestamp}...\n')
 
     for position, line in enumerate(data):
         if not line.strip():
@@ -90,7 +90,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
 
 def filter_input(parsed_args: argparse.Namespace):
-    logging.info('Will filter for the next {args.number_of_records} records.')
+    # logging.info('Will filter for the next {args.number_of_records} records.')
     data = stdin.readlines()
 
     filtered_records = _filter_records(data, parsed_args.number_of_records)
