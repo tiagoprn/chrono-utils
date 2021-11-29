@@ -1,5 +1,6 @@
 # chrono-utils
 
+
 ## filter
 
 Given timestamped records on stdin, prints on stdout the ones that will happen in the near future, taking the current timestamp as a reference.
@@ -11,6 +12,7 @@ You can use the main script standalone on any python3 installation, since it doe
 ```
 curl https://raw.githubusercontent.com/tiagoprn/chrono-utils/master/chrono_utils/filter_time_records.py -o filter_time_records.py
 ```
+
 
 # Setting up the development environment
 
@@ -32,6 +34,16 @@ curl https://raw.githubusercontent.com/tiagoprn/chrono-utils/master/chrono_utils
 make shell
 make requirements
 ```
+
+8. To validate the development environment is working, run the commands below:
+
+```
+$ make style-check
+$ make lint
+$ make test
+$ make run
+```
+
 
 # Notes
 
