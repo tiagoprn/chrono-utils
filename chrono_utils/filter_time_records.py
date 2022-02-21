@@ -26,27 +26,27 @@ from typing import List
 
 CURRENT_SCRIPT_NAME = os.path.splitext(os.path.basename(__file__))[0]
 LOG_FORMAT = (
-    '[%(asctime)s PID %(process)s '
-    '%(filename)s:%(lineno)s - %(funcName)s()] '
-    '%(levelname)s -> \n'
-    '%(message)s\n'
+    "[%(asctime)s PID %(process)s "
+    "%(filename)s:%(lineno)s - %(funcName)s()] "
+    "%(levelname)s -> \n"
+    "%(message)s\n"
 )
 logging.basicConfig(
     format=LOG_FORMAT,
     level=logging.INFO,
     handlers=[
-        logging.FileHandler(f'{CURRENT_SCRIPT_NAME}.log'),
+        logging.FileHandler(f"{CURRENT_SCRIPT_NAME}.log"),
         # logging.StreamHandler(stdout)
     ],
 )
 
 
 def _get_current_timestamp_in_12_hours_format() -> str:
-    current_timestamp = datetime.now().strftime('%I:%M%p').lower()
+    current_timestamp = datetime.now().strftime("%I:%M%p").lower()
 
     return (
         current_timestamp[1:]
-        if current_timestamp.startswith('0')
+        if current_timestamp.startswith("0")
         else current_timestamp
     )
 
@@ -54,9 +54,15 @@ def _get_current_timestamp_in_12_hours_format() -> str:
 def _get_datetime_instance_from_12_hours_format(
     timestamp_in_12_hours_format: str,
 ) -> datetime:
-    day_str = datetime.now().strftime('%Y-%m-%d')
-    full_datetime = f'{day_str} {timestamp_in_12_hours_format.upper()}'
-    return datetime.strptime(full_datetime, '%Y-%m-%d %I:%M%p')
+    # below is to support records like e.g. 1:30-2:30pm,
+    # converting them to 1:30pm to get an appropriate
+    # record to be formatted.
+    if "-" in timestamp_in_12_hours_format:
+        start_time, end_time = timestamp_in_12_hours_format.split("-")
+        timestamp_in_12_hours_format = f"{start_time}{end_time[-2:]}"
+    day_str = datetime.now().strftime("%Y-%m-%d")
+    full_datetime = f"{day_str} {timestamp_in_12_hours_format.upper()}"
+    return datetime.strptime(full_datetime, "%Y-%m-%d %I:%M%p")
 
 
 def _filter_records(data: List[str], number_of_records: int) -> List[str]:
@@ -64,7 +70,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
     current_timestamp = _get_current_timestamp_in_12_hours_format()
 
-    logging.info('Filtering all records >= ' f'{current_timestamp}...\n')
+    logging.info("Filtering all records >= " f"{current_timestamp}...\n")
 
     for position, line in enumerate(data):
         if not line.strip():
@@ -90,7 +96,7 @@ def _filter_records(data: List[str], number_of_records: int) -> List[str]:
 
 
 def filter_input(parsed_args: argparse.Namespace):
-    logging.info('Will filter for the next {args.number_of_records} records.')
+    logging.info("Will filter for the next {args.number_of_records} records.")
     data = stdin.readlines()
 
     filtered_records = _filter_records(data, parsed_args.number_of_records)
@@ -98,7 +104,7 @@ def filter_input(parsed_args: argparse.Namespace):
         stdout.write(record)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "number_of_records", type=int, help="show the next x records"
